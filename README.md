@@ -5,6 +5,5 @@ flutter下android和ios通过麦克风的音频解析出音高分贝赫兹
 通过回调获取解析数据
 
 
-
-
+![效果显示](https://github.com/ChinaWallace/flutter_pitchdetect/blob/main/IMG_6486.PNG)
 
