@@ -1,0 +1,10 @@
+# ninja log v5
+0	1405	1743398100483901752	CMakeFiles/pitch.dir/src/main/cpp/pitch_wrapper.cpp.o	2fb7ed2aa0358bc
+1	2913	1743398101971197010	CMakeFiles/pitch.dir/Volumes/cai/learn/pitchdetect_flutter/c++/audioDetail/PitchDetect.cpp.o	8235593bbe08fdd
+2913	3728	1743398102696827358	/Volumes/cai/learn/pitchdetect_flutter/build/app/intermediates/cxx/Debug/4w5v5i52/obj/arm64-v8a/libpitch.so	28d5f5b3f29fc97d
+2	752	1743398437696008716	CMakeFiles/pitch.dir/src/main/cpp/pitch_wrapper.cpp.o	2fb7ed2aa0358bc
+3	1043	1743398437982981435	CMakeFiles/pitch.dir/Volumes/cai/learn/pitchdetect_flutter/c++/audioDetail/PitchDetect.cpp.o	8235593bbe08fdd
+1043	1384	1743398438253006038	/Volumes/cai/learn/pitchdetect_flutter/build/app/intermediates/cxx/Debug/4w5v5i52/obj/arm64-v8a/libpitch.so	28d5f5b3f29fc97d
+10	822	1743398683326187031	CMakeFiles/pitch.dir/src/main/cpp/pitch_wrapper.cpp.o	2fb7ed2aa0358bc
+2	1051	1743398799152618187	CMakeFiles/pitch.dir/Volumes/cai/learn/pitchdetect_flutter/c++/audioDetail/PitchDetect.cpp.o	8235593bbe08fdd
+1051	1450	1743398799448060984	/Volumes/cai/learn/pitchdetect_flutter/build/app/intermediates/cxx/Debug/4w5v5i52/obj/arm64-v8a/libpitch.so	28d5f5b3f29fc97d

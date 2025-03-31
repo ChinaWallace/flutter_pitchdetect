@@ -1,0 +1,4 @@
+# ninja log v5
+0	701	1743397579634294379	CMakeFiles/pitch.dir/src/main/cpp/pitch_wrapper.cpp.o	f53cd98171923f3e
+0	970	1743397579899351806	CMakeFiles/pitch.dir/Volumes/cai/learn/pitchdetect_flutter/c++/audioDetail/PitchDetect.cpp.o	c6d5f1f3d2919052
+970	1263	1743397580142049222	/Volumes/cai/learn/pitchdetect_flutter/build/app/intermediates/cxx/Debug/5k2o1uo4/obj/arm64-v8a/libpitch.so	e6252495d8d23e2

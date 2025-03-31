@@ -1,0 +1,6 @@
+/Volumes/cai/learn/pitchdetect_flutter/android/app/src/main/cpp/pitch_wrapper.h
+/Volumes/cai/learn/pitchdetect_flutter/c++/audioDetail/pitch.h
+/Volumes/cai/learn/pitchdetect_flutter/c++/audioDetail/PitchDetect.h
+/Volumes/cai/learn/pitchdetect_flutter/c++/audioDetail/SafeQueue.h
+/Volumes/cai/learn/pitchdetect_flutter/c++/nlohmann/json.hpp
+/Volumes/cai/learn/pitchdetect_flutter/c++/nlohmann/json_fwd.hpp
