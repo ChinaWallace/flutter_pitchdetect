@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pitchdetect_flutter/pitch_detect.dart';
-import 'package:record/record.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'dart:math' as math;
 import 'package:path_provider/path_provider.dart';
 import 'dart:typed_data';
@@ -19,13 +19,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Pitch Detector (Record)',
+      title: 'Pitch Detector',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Pitch Detector (Record)'),
+      home: const MyHomePage(title: 'Pitch Detector'),
     );
   }
 }
@@ -39,7 +38,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _audioRecorder = AudioRecorder();
+  final _audioRecorder = FlutterSoundRecorder();
   bool _isRecording = false;
   String _noteName = '--';
   double _currentPitch = 0.0;
@@ -51,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    // _initRecorder();
+    _initRecorder();
     myPitchDetect.init((message) {
       try {
         final data = json.decode(message);
@@ -68,18 +67,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _initRecorder() async {
     await _requestPermissions();
+    await _audioRecorder.openRecorder();
+    await _audioRecorder.setSubscriptionDuration(const Duration(milliseconds: 50));
   }
 
   Future<void> _requestPermissions() async {
     final status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
+      // Handle permission denied
       print('Microphone permission denied');
     }
   }
 
   Future<void> _sendAudioDataToSwift(Uint8List audioData) async {
     try {
-      myPitchDetect.sendAudioData(audioData);
+      await platform.invokeMethod('receiveAudioData', {'audioData': audioData});
     } on PlatformException catch (e) {
       print('Failed to send audio data to Swift: ${e.message}');
     }
@@ -87,35 +89,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _startRecording() async {
     try {
-      // if (await Permission.microphone.isGranted) {
-        final tempDir = await getTemporaryDirectory();
-        final path = '${tempDir.path}/temp_audio.wav';
+      if (await Permission.microphone.isGranted) {
 
-        // Start recording with record package
-        await _audioRecorder.start(
-          RecordConfig(
-            encoder: AudioEncoder.wav,
-            sampleRate: 44100,
-            numChannels: 1,
-          ),
-          path: path,
+        // 设置音频配置
+        await _audioRecorder.startRecorder(
+          codec: Codec.pcm16,
+          sampleRate: 44100,
+          toStream: _audioStreamController.sink,
         );
 
-
-        // Listen to the raw audio data
-        _audioRecorder.onAmplitudeChanged(const Duration(microseconds: 10)).listen(
-              (amp) {
-            // Here we can process the audio data
-            // For now, we'll just send the amplitude data
-            final data = Uint8List.fromList([amp.current.toInt()]);
-            _sendAudioDataToSwift(data);
-          },
-        );
-
-        setState(() {
-          _isRecording = true;
+        _audioStreamController.stream.listen((Uint8List audioData) {
+          _sendAudioDataToSwift(audioData);
         });
-      // }
+
+        _isRecording = true;
+      }
     } catch (e) {
       print('Error starting recording: $e');
     }
@@ -123,7 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _stopRecording() async {
     try {
-      await _audioRecorder.stop();
+      _audioStreamController.close();
+      await _audioRecorder.stopRecorder();
       setState(() {
         _isRecording = false;
         _audioBuffer.clear();
@@ -136,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     _audioStreamController.close();
-    _audioRecorder.dispose();
+    _audioRecorder.closeRecorder();
     super.dispose();
   }
 
